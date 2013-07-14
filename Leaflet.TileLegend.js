@@ -111,6 +111,7 @@ L.Control.TileLegend = L.Control.Attribution.extend({
         if (!L.Browser.touch) {
             L.DomEvent.disableClickPropagation(this._container);
             L.DomEvent.on(this._container, 'mousewheel', L.DomEvent.stopPropagation);
+            L.DomEvent.on(this._container, 'MozMousePixelScroll', L.DomEvent.stopPropagation);
         } else {
             L.DomEvent.on(this._container, 'click', L.DomEvent.stopPropagation);
         }
