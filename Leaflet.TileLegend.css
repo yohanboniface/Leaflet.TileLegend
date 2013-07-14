@@ -4,7 +4,13 @@
     -webkit-box-sizing:border-box;
     box-sizing: border-box;
 }
-.leaflet-control-tilelegend {
+.tilelegend-content {
+    display: none;
+}
+.tilelegend-expended .tilelegend-content {
+    display: block;
+}
+.tilelegend-expended .leaflet-control-tilelegend {
     position: absolute;
     right: 0;
     top: 0;
@@ -16,7 +22,13 @@
     border-left: 1px solid #ddd;
     font-family: sans-serif;
 }
-.tilelegend-wide {
+.tilelegend-expended > .leaflet-control-container > .leaflet-bottom,
+.tilelegend-expended > .leaflet-control-container > .leaflet-right {
+    height: 100%;
+    width: 100%;
+}
+
+.tilelegend-maximized .leaflet-control-tilelegend {
     width: 100%;
 }
 .leaflet-control-tilelegend ul {
@@ -43,10 +55,8 @@
     padding: 10px 0;
     font-size: 0.9em;
 }
-.leaflet-control-tilelegend li {
-    padding: 10px 0;
-}
 .leaflet-control-tilelegend li + li {
+    padding-top: 10px;
     border-top: 1px dotted #eee;
 }
 .tilelegend-map {
@@ -84,7 +94,46 @@
     border-bottom: 1px solid #eee;
 }
 .tilelegend-toolbox {
+    display: inline-block;
+}
+.tilelegend-minimize,
+.tilelegend-maximize,
+.tilelegend-close {
+    background-image: url('./toolbox.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+    cursor: pointer;
+}
+.tilelegend-minimize {
+    background-position: left center;
+}
+.tilelegend-close {
+    background-position: right center;
+    display: none;
+}
+.tilelegend-expended .tilelegend-minimize,
+.tilelegend-maximized .tilelegend-maximize {
+    display: none;
+}
+.tilelegend-maximized .tilelegend-minimize,
+.tilelegend-expended .tilelegend-close {
+    display: inline-block;
+    display: inline-block;
+}
+.tilelegend-expended .tilelegend-toolbox {
     position: absolute;
     top: 5px;
-    left: 20px;
+    right: 20px;
+}
+.tilelegend-attribution {
+    margin-right: 5px;
+}
+.tilelegend-expended .tilelegend-attribution,
+.tilelegend-expended .tilelegend-prefix {
+    display: none;
 }
