@@ -11,6 +11,8 @@
     display: block;
 }
 .tilelegend-expended .leaflet-control-tilelegend {
+    box-shadow: none;
+    padding: 0;
     position: absolute;
     right: 0;
     top: 0;
