@@ -13,9 +13,12 @@ L.TileLegend = L.Class.extend({
     },
 
     build: function () {
-        var headerElt = L.DomUtil.create('div', 'tilelegend-header', this._container),
+        var toolbox = L.DomUtil.create('div', 'tilelegend-toolbox', this._container),
+            toggle = L.DomUtil.create('a', 'tilelegend-toggle-fullscreen', toolbox),
+            headerElt = L.DomUtil.create('div', 'tilelegend-header', this._container),
             title = L.DomUtil.create('h1', '', headerElt);
         title.innerHTML = this._data.title;
+        toggle.innerHTML = "toggle";
         if (this._data.description) {
             var descr = L.DomUtil.create('p', '', headerElt);
             descr.innerHTML = this._data.description;
@@ -23,10 +26,19 @@ L.TileLegend = L.Class.extend({
         for (var idx in this._data.entries) {
             this.buildPara(this._data.entries[idx]);
         }
+        L.DomEvent.on(toggle, 'click', function (e) {
+            var className = 'tilelegend-wide';
+            if (L.DomUtil.hasClass(this._container, className)) {
+                L.DomUtil.removeClass(this._container, className);
+            } else {
+                L.DomUtil.addClass(this._container, className);
+            }
+            L.DomEvent.stop(e);
+        }, this);
     },
 
     buildPara: function (para) {
-        var paraElt = L.DomUtil.create('div', para.className || '', this._container),
+        var paraElt = L.DomUtil.create('div', 'tilelegend-entry ' + para.className, this._container),
             title = L.DomUtil.create('h4', '', paraElt),
             keysElt = L.DomUtil.create('ul', '', paraElt);
         title.innerHTML = para.title;
