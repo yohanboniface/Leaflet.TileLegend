@@ -71,7 +71,7 @@ L.TileLegend = L.Class.extend({
 
     buildKey: function (key, container) {
         var mapElt = L.DomUtil.create('div', 'tilelegend-map', container),
-            zoomToElt = L.DomUtil.create('div', 'tilelegend-zoom-to', mapElt),
+            zoomToElt = L.DomUtil.create('div', 'tilelegend-zoom-to', container),
             latlng = [key.coordinates[0], key.coordinates[1]],
             zoom = key.coordinates[2],
             map = L.map(mapElt, {

@@ -54,19 +54,19 @@
 }
 .leaflet-control-tilelegend p {
     margin: 0;
-    padding: 10px 0;
+    padding: 5px;
     font-size: 0.9em;
 }
-.leaflet-control-tilelegend li + li {
-    padding-top: 10px;
-    border-top: 1px dotted #eee;
+.leaflet-control-tilelegend li {
+    position: relative;
+    margin-bottom: 10px;
+    border: 1px solid #eee;
 }
 .tilelegend-map {
     width: 40px;
     height: 40px;
-    cursor: pointer;
 }
-.tilelegend-map .tilelegend-zoom-to {
+.leaflet-control-tilelegend li .tilelegend-zoom-to {
     background-image: url('zoom_to.png');
     background-repeat: no-repeat;
     background-position: center center;
@@ -80,9 +80,10 @@
     height: 100%;
     z-index: 10000;
     background-color: #f1f2f3;
-    opacity: 0.5;
+    opacity: 0.6;
+    cursor: pointer;
 }
-.tilelegend-map:hover .tilelegend-zoom-to {
+.leaflet-control-tilelegend li:hover .tilelegend-zoom-to {
     display: block;
 }
 .tilelegend-key {
