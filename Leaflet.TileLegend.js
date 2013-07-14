@@ -84,7 +84,7 @@ L.TileLegend = L.Class.extend({
                 doubleClickZoom: false
             });
         this._cloneLayer(this._tilelayer).addTo(map);
-        map.on('click', function (e) {
+        L.DomEvent.on(zoomToElt, 'click', function (e) {
             this._map.setView(latlng, zoom);
             L.DomEvent.stop(e);
         }, this);
