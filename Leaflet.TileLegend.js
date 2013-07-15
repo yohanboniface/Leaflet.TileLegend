@@ -54,13 +54,13 @@ L.TileLegend = L.Class.extend({
             var descr = L.DomUtil.create('p', '', headerElt);
             descr.innerHTML = this._data.description;
         }
-        for (var idx in this._data.entries) {
-            this.buildPara(this._data.entries[idx]);
+        for (var idx in this._data.sections) {
+            this.buildPara(this._data.sections[idx]);
         }
     },
 
     buildPara: function (para) {
-        var paraElt = L.DomUtil.create('div', 'tilelegend-entry ' + para.className, this._content_container),
+        var paraElt = L.DomUtil.create('div', 'tilelegend-section ' + para.className, this._content_container),
             title = L.DomUtil.create('h4', '', paraElt),
             keysElt = L.DomUtil.create('ul', '', paraElt),
             expendedClass = 'expended';

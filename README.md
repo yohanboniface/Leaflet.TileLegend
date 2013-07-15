@@ -12,7 +12,7 @@ Checkout the [demo](http://hotosm.github.io/HDM-CartoCSS/).
 var legend = {
     title: "HOT style",
     description: "Humanitarian focused OSM base layer.",
-    entries: [{
+    sections: [{
         title: 'Roads',
         className: 'roads',
         keys: [
