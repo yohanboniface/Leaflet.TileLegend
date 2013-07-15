@@ -62,8 +62,23 @@ L.TileLegend = L.Class.extend({
     buildPara: function (para) {
         var paraElt = L.DomUtil.create('div', 'tilelegend-entry ' + para.className, this._content_container),
             title = L.DomUtil.create('h4', '', paraElt),
-            keysElt = L.DomUtil.create('ul', '', paraElt);
+            keysElt = L.DomUtil.create('ul', '', paraElt),
+            expendedClass = 'expended';
         title.innerHTML = para.title;
+        var toggle = L.Util.bind(function () {
+            if (L.DomUtil.hasClass(paraElt, expendedClass)) {
+                L.DomUtil.removeClass(paraElt, expendedClass);
+            } else {
+                L.DomUtil.addClass(paraElt, expendedClass);
+                this.fire('open');
+            }
+        }, this);
+        L.DomEvent.on(title, 'click', function () {
+            toggle();
+        });
+        if (para.expend || this._data.expendAll) {
+            toggle();
+        }
         for (var i = 0, l = para.keys.length; i < l; i++) {
             this.buildKey(para.keys[i], L.DomUtil.create('li', '', keysElt));
         }
@@ -84,6 +99,9 @@ L.TileLegend = L.Class.extend({
                 doubleClickZoom: false
             });
         this._cloneLayer(this._tilelayer).addTo(map);
+        this.on('open', function (e) {
+            map.invalidateSize();
+        });
         L.DomEvent.on(zoomToElt, 'click', function (e) {
             this._map.setView(latlng, zoom);
             L.DomEvent.stop(e);

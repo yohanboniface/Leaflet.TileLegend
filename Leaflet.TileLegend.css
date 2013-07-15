@@ -36,12 +36,25 @@
 .leaflet-control-tilelegend ul {
     list-style: none;
     padding: 0;
+    display: none;
+}
+.tilelegend-maximized ul,
+.leaflet-control-tilelegend .expended ul {
+    display: block;
 }
 .leaflet-control-tilelegend .tilelegend-header {
     padding: 0 20px;
 }
 .leaflet-control-tilelegend h4 {
     color: #747474;
+    cursor: pointer;
+}
+.leaflet-control-tilelegend h4:before {
+    content: '▶ ';
+}
+.tilelegend-maximized h4:before,
+.leaflet-control-tilelegend .expended h4:before {
+    content: '▼ ';
 }
 .leaflet-control-tilelegend h1 {
     margin-top: 0;
