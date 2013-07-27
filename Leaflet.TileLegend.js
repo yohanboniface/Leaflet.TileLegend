@@ -102,7 +102,7 @@ L.TileLegend = L.Class.extend({
         this.on('open', function (e) {
             map.invalidateSize();
         });
-        L.DomEvent.on(zoomToElt, 'click', function (e) {
+        L.DomEvent.on(container, 'click', function (e) {
             this._map.setView(latlng, zoom);
             L.DomEvent.stop(e);
         }, this);
