@@ -67,6 +67,8 @@ Here you can add:
   * an optionnal class name
   * expend: true if you want it to be expended by default
   * a list of keys, with a latitude, a longitude, a zoom, and a text
+* (optional) displayPopup: boolean to control the creation of a popup on key click
+  (can be set at root level, section level or key level)
 
 ### Add it to your `L.TileLayer` options
 

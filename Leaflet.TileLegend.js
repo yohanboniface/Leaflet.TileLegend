@@ -24,6 +24,8 @@ L.TileLegend = L.Class.extend({
         if (tilelayer.options.openLegendOnLoad) {
             this._map.on('legendcontrolready', this.minimize, this);
         }
+        this.popup = L.popup();
+        this.displayPopup = this._data.displayPopup === true;
     },
 
     close: function () {
@@ -55,36 +57,39 @@ L.TileLegend = L.Class.extend({
             descr.innerHTML = this._data.description;
         }
         for (var idx in this._data.sections) {
-            this.buildPara(this._data.sections[idx]);
+            this.buildSection(this._data.sections[idx]);
         }
     },
 
-    buildPara: function (para) {
-        var paraElt = L.DomUtil.create('div', 'tilelegend-section ' + para.className, this._content_container),
-            title = L.DomUtil.create('h4', '', paraElt),
-            keysElt = L.DomUtil.create('ul', '', paraElt),
+    buildSection: function (section) {
+        var sectionElt = L.DomUtil.create('div', 'tilelegend-section ' + section.className, this._content_container),
+            title = L.DomUtil.create('h4', '', sectionElt),
+            keysElt = L.DomUtil.create('ul', '', sectionElt),
             expendedClass = 'expended';
-        title.innerHTML = para.title;
+        title.innerHTML = section.title;
         var toggle = L.Util.bind(function () {
-            if (L.DomUtil.hasClass(paraElt, expendedClass)) {
-                L.DomUtil.removeClass(paraElt, expendedClass);
+            if (L.DomUtil.hasClass(sectionElt, expendedClass)) {
+                L.DomUtil.removeClass(sectionElt, expendedClass);
             } else {
-                L.DomUtil.addClass(paraElt, expendedClass);
+                L.DomUtil.addClass(sectionElt, expendedClass);
                 this.fire('open');
             }
         }, this);
         L.DomEvent.on(title, 'click', function () {
             toggle();
         });
-        if (para.expend || this._data.expendAll) {
+        if (section.expend || this._data.expendAll) {
             toggle();
         }
-        for (var i = 0, l = para.keys.length; i < l; i++) {
-            this.buildKey(para.keys[i], L.DomUtil.create('li', '', keysElt));
+        if (typeof section.displayPopup === "undefined") {
+            section.displayPopup = this.displayPopup;
+        }
+        for (var i = 0, l = section.keys.length; i < l; i++) {
+            this.buildKey(section.keys[i], L.DomUtil.create('li', '', keysElt), section);
         }
     },
 
-    buildKey: function (key, container) {
+    buildKey: function (key, container, section) {
         var mapElt = L.DomUtil.create('div', 'tilelegend-map', container),
             zoomToElt = L.DomUtil.create('div', 'tilelegend-zoom-to', container),
             latlng = [key.coordinates[0], key.coordinates[1]],
@@ -97,13 +102,20 @@ L.TileLegend = L.Class.extend({
                 dragging: false,
                 scrollWheelZoom: false,
                 doubleClickZoom: false
-            });
+            }),
+            displayPopup = typeof key.displayPopup === "undefined"? section.displayPopup: key.displayPopup;
         this._cloneLayer(this._tilelayer).addTo(map);
         this.on('open', function (e) {
             map.invalidateSize();
         });
         L.DomEvent.on(container, 'click', function (e) {
             this._map.setView(latlng, zoom);
+            if (displayPopup) {
+                this.popup
+                    .setLatLng(latlng)
+                    .setContent(key.text)
+                    .openOn(this._map);
+            }
             L.DomEvent.stop(e);
         }, this);
         var txt = L.DomUtil.create('p', 'tilelegend-key', container);
@@ -171,9 +183,10 @@ L.Control.TileLegend = L.Control.Attribution.extend({
             var prefix = L.DomUtil.create('span', 'tilelegend-prefix', this._container);
             prefix.innerHTML = this.options.prefix + ' — ';
         }
-
         for (var i in layers) {
-            this._addLayerAttribution(layers[i]);
+            if (layers[i].getAttribution) {
+                this._addLayerAttribution(layers[i]);
+            }
         }
     },
 
