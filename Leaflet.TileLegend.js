@@ -90,11 +90,16 @@ L.TileLegend = L.Class.extend({
     },
 
     buildKey: function (key, container, section) {
-        var mapElt = L.DomUtil.create('div', 'tilelegend-map', container),
+        var keyElt = L.DomUtil.create('div', 'tilelegend-map', container),
             zoomToElt = L.DomUtil.create('div', 'tilelegend-zoom-to', container),
             latlng = [key.coordinates[0], key.coordinates[1]],
             zoom = key.coordinates[2],
-            map = L.map(mapElt, {
+            displayPopup = typeof key.displayPopup === "undefined"? section.displayPopup: key.displayPopup;
+        if (key.thumbnail) {
+            var img = L.DomUtil.create('img', '', keyElt);
+            img.src = key.thumbnail;
+        } else {
+            var map = L.map(keyElt, {
                 center: latlng,
                 zoom: zoom,
                 zoomControl: false,
@@ -102,12 +107,12 @@ L.TileLegend = L.Class.extend({
                 dragging: false,
                 scrollWheelZoom: false,
                 doubleClickZoom: false
-            }),
-            displayPopup = typeof key.displayPopup === "undefined"? section.displayPopup: key.displayPopup;
-        this._cloneLayer(this._tilelayer).addTo(map);
-        this.on('open', function (e) {
-            map.invalidateSize();
-        });
+            });
+            this._cloneLayer(this._tilelayer).addTo(map);
+            this.on('open', function (e) {
+                map.invalidateSize();
+            });
+        }
         L.DomEvent.on(container, 'click', function (e) {
             this._map.setView(latlng, zoom);
             if (displayPopup) {

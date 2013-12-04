@@ -52,7 +52,8 @@ var legend = {
             },
             {
                 coordinates: [19.55134, -71.72704, 19],
-                text: "Kindergarden"
+                text: "Kindergarden",
+                thumbnail: "path/to/an/image.png"
             }
         ]
     }
@@ -66,7 +67,8 @@ Here you can add:
   * a title
   * an optionnal class name
   * expend: true if you want it to be expended by default
-  * a list of keys, with a latitude, a longitude, a zoom, and a text
+  * a list of keys, with a latitude, a longitude, a zoom, and a text; optionally
+    a thumbnail can be set to be displayed instead of the map extract
 * (optional) displayPopup: boolean to control the creation of a popup on key click
   (can be set at root level, section level or key level)
 

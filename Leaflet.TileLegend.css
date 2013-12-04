@@ -78,6 +78,7 @@
 .tilelegend-map {
     width: 40px;
     height: 40px;
+    overflow: hidden;
 }
 .leaflet-control-tilelegend li .tilelegend-zoom-to {
     background-image: url('zoom_to.png');
