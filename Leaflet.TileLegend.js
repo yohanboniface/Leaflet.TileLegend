@@ -152,8 +152,8 @@ L.Control.TileLegend = L.Control.Attribution.extend({
         }
 
         map
-            .on('layeradd', this._update, this)
-            .on('layerremove', this._update, this);
+            .on('layeradd', this.onLayerAddRemove, this)
+            .on('layerremove', this.onLayerAddRemove, this);
 
         this._update();
 
@@ -168,8 +168,8 @@ L.Control.TileLegend = L.Control.Attribution.extend({
 
     onRemove: function (map) {
         map
-            .off('layeradd', this._update, this)
-            .off('layerremove', this._update, this);
+            .off('layeradd', this.onLayerAddRemove, this)
+            .off('layerremove', this.onLayerAddRemove, this);
 
     },
 
@@ -177,6 +177,12 @@ L.Control.TileLegend = L.Control.Attribution.extend({
         this.options.prefix = prefix;
         this._update();
         return this;
+    },
+
+    onLayerAddRemove: function (e) {
+        // call update only if we changed tilelayers
+        if (!e.layer || !e.layer.getAttribution) return;
+        this._update();
     },
 
     _update: function () {
